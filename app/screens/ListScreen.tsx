@@ -7,13 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 const ListScreen = () => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     axios
         .get("https://api.pokemontcg.io/v2/cards?pageSize=10")
         .then((response) => setCards(response.data.data))
         .finally(() => setLoading(false));
   }, []);
+
 
 
 

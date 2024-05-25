@@ -1,20 +1,29 @@
 import React, { FC } from "react"
 import {Image, ImageStyle, Text, TouchableOpacity, View, ViewStyle} from "react-native"
 import { Pokemon } from "../models/pokemon"
+import RootNavigator from "../Navigator/RootNavigator";
+import {useNavigation} from "@react-navigation/native";
 
 
 interface CardProps {
   pokemon: Pokemon
 }
 
-const Card: FC<CardProps> = ({ pokemon}) => {
+const Card: FC<CardProps> = ({pokemon}, navigation) => {
   const abilitiesText = pokemon.abilities
   ? pokemon.abilities.map((ability) => ability.name).join(", ")
   : "No abilities";
-  
+
+navigation = useNavigation();
+
+
 
   return (
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={() => {
+      navigation.navigate('Detail')
+      }}
+      >
     <View
       style={$containerStyle}
     >

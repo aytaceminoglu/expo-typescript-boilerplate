@@ -2,6 +2,7 @@ import { ActivityIndicator, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
+import CardDetail from "../components/CardDetail";
 
 const DetailScreen = () => {
     const [cardDetails, setCardDetails] = useState(null);
@@ -19,7 +20,7 @@ const DetailScreen = () => {
             {loading ? (
                 <ActivityIndicator size={"large"} />
             ) : (
-                cardDetails ? <Card pokemon={cardDetails} /> : 'Detay Yok'
+                cardDetails ? <CardDetail pokemon={cardDetails} /> : 'Detay Yok'
             )}
         </View>
     );
