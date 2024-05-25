@@ -2,14 +2,16 @@ import React, { FC } from "react"
 import {Image, ImageStyle, Text, TouchableOpacity, View, ViewStyle} from "react-native"
 import { Pokemon } from "../models/pokemon"
 
+
 interface CardProps {
   pokemon: Pokemon
 }
 
-const Card: FC<CardProps> = ({ pokemon }) => {
+const Card: FC<CardProps> = ({ pokemon}) => {
   const abilitiesText = pokemon.abilities
   ? pokemon.abilities.map((ability) => ability.name).join(", ")
-  : "No abilities"
+  : "No abilities";
+  
 
   return (
       <TouchableOpacity>
