@@ -1,60 +1,61 @@
-import React, { FC } from "react"
+import React, {FC} from "react"
 import {Image, ImageStyle, Text, TouchableOpacity, View, ViewStyle} from "react-native"
-import { Pokemon } from "../models/pokemon"
+import {Pokemon} from "../models/pokemon"
 import RootNavigator from "../Navigator/RootNavigator";
 import {useNavigation} from "@react-navigation/native";
 
 
 interface CardProps {
-  pokemon: Pokemon
+    pokemon: Pokemon
 }
 
 const Card: FC<CardProps> = ({pokemon}, navigation) => {
-  const abilitiesText = pokemon.abilities
-  ? pokemon.abilities.map((ability) => ability.name).join(", ")
-  : "No abilities";
+    const abilitiesText = pokemon.abilities
+        ? pokemon.abilities.map((ability) => ability.name).join(", ")
+        : "No abilities";
 
-navigation = useNavigation();
+    navigation = useNavigation();
 
 
-
-  return (
-      <TouchableOpacity
-      onPress={() => {
-      navigation.navigate('Detail')
-      }}
-      >
-    <View
-      style={$containerStyle}
-    >
-      <Image
-        source={{ uri: pokemon.images.small }}
-        style={$imageStyle}
-      ></Image>
-      <View style={$rightSection}>
-        <Text>Name: {pokemon.name}</Text>
-        <Text>Type: {pokemon.supertype}</Text>
-        <Text>
-          Abilities: {abilitiesText}
-        </Text>
-      </View>
-    </View>
-      </TouchableOpacity>
-  )
+    return (
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('Detail', {
+                    pokemonId: pokemon.id
+                })
+            }}
+        >
+            <View
+                style={$containerStyle}
+            >
+                <Image
+                    source={{uri: pokemon.images.small}}
+                    style={$imageStyle}
+                ></Image>
+                <View style={$rightSection}>
+                    <Text>Name: {pokemon.name}</Text>
+                    <Text>Type: {pokemon.supertype}</Text>
+                    <Text>
+                        Abilities: {abilitiesText}
+                    </Text>
+                </View>
+            </View>
+        </TouchableOpacity>
+    )
 }
 
 const $containerStyle: ViewStyle = {
-  flexDirection: "row",
-  borderBottomWidth: 1,
-  borderBottomColor: "lightgray",
-  padding: 8,
-  marginBottom: 16,
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    padding: 8,
+    marginBottom: 16,
 }
 
-const $imageStyle: ImageStyle = { width: 100, aspectRatio: 0.71 }
+const $imageStyle: ImageStyle = {width: 100, aspectRatio: 0.71}
 
 
-const $rightSection: ViewStyle = { paddingLeft: 16 }
+const $rightSection: ViewStyle = {paddingLeft: 16}
 
 
 export default Card

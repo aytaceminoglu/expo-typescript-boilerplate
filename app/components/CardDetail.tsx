@@ -8,10 +8,11 @@ interface CardProps{
 }
 
 const CardDetail = ({pokemon}) => {
+
     return(
         <View>
             <Text>
-                Deneme
+                Name: {pokemon.name}
             </Text>
         </View>
     )

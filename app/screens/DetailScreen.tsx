@@ -3,14 +3,16 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
 import CardDetail from "../components/CardDetail";
+import {useRoute} from "@react-navigation/native";
 
 const DetailScreen = () => {
     const [cardDetails, setCardDetails] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const route = useRoute()
+    const pokeId = route.params["pokemonId"];
     useEffect(() => {
         axios
-            .get('https://api.pokemontcg.io/v2/cards/xy1-21')
+            .get(`https://api.pokemontcg.io/v2/cards/${pokeId}`)
             .then((response) => setCardDetails(response.data.data))
             .finally(() => setLoading(false));
     }, []);
