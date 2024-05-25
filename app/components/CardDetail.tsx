@@ -1,6 +1,6 @@
 import {Pokemon} from "../models/pokemon";
 import {FC} from "react";
-import {Text, View} from "react-native";
+import {Image, ImageStyle, Text, View, ViewStyle} from "react-native";
 
 
 interface CardProps{
@@ -10,11 +10,29 @@ interface CardProps{
 const CardDetail = ({pokemon}) => {
 
     return(
-        <View>
+        <View style={$containerStyle}>
+            <Image
+            source={{uri: pokemon.images.small}}
+            style={$imageStyle}
+
+            >
+            </Image>
             <Text>
                 Name: {pokemon.name}
             </Text>
         </View>
     )
 }
+
+const $containerStyle: ViewStyle = {
+    alignItems: "center",
+    alignContent: "center"
+}
+
+const $imageStyle: ImageStyle = {
+    width: '80%',
+    aspectRatio: 0.71,
+    flexDirection: "column"
+}
+
 export default CardDetail
