@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Image, ImageStyle, Text, View, ViewStyle } from "react-native"
+import {Image, ImageStyle, Text, TouchableOpacity, View, ViewStyle} from "react-native"
 import { Pokemon } from "../models/pokemon"
 
 interface CardProps {
@@ -12,6 +12,7 @@ const Card: FC<CardProps> = ({ pokemon }) => {
   : "No abilities"
 
   return (
+      <TouchableOpacity>
     <View
       style={$containerStyle}
     >
@@ -27,6 +28,7 @@ const Card: FC<CardProps> = ({ pokemon }) => {
         </Text>
       </View>
     </View>
+      </TouchableOpacity>
   )
 }
 

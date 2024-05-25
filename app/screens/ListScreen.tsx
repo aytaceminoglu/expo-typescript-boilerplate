@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { ActivityIndicator, FlatList, View } from "react-native"
+import React, { useEffect, useState } from "react"
+import {ActivityIndicator, FlatList, Touchable, TouchableOpacity, View} from "react-native"
 import Card from "../components/Card"
 import axios from "axios"
 
@@ -26,6 +26,7 @@ const ListScreen = () => {
         />
       )}
     </View>
+
   )
 }
 
