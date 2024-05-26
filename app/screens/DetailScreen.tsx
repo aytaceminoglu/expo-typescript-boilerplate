@@ -9,10 +9,10 @@ const DetailScreen = () => {
     const [cardDetails, setCardDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const route = useRoute()
-    const pokeId = route.params["pokemonId"];
+    const pokemonId = route.params["pokemonId"];
     useEffect(() => {
         axios
-            .get(`https://api.pokemontcg.io/v2/cards/${pokeId}`)
+            .get(`https://api.pokemontcg.io/v2/cards/${pokemonId}`)
             .then((response) => setCardDetails(response.data.data))
             .finally(() => setLoading(false));
     }, []);
