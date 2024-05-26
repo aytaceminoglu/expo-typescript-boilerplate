@@ -18,7 +18,7 @@ const ListScreen = () => {
 
 
   return (
-      <View style={{ paddingTop: 80 }}>
+      <View style={{  }}>
         {loading == true ? (
             <ActivityIndicator size={"large"} />
         ) : (
