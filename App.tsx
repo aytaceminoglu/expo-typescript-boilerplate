@@ -1,17 +1,6 @@
-import React from "react"
-import { StatusBar } from "expo-status-bar"
-import { View, ViewStyle } from "react-native"
-import RootNavigator from "./app/Navigator/RootNavigator";
+import React from "react";
+import { AppNavigator } from "./app/navigators/AppNavigator";
 
 export default function App() {
-  return (
-    <View style={$container}>
-      <StatusBar style="auto" />
-     <RootNavigator />
-    </View>
-  )
-}
-
-const $container: ViewStyle = {
-  flex: 1,
+  return <AppNavigator></AppNavigator>;
 }
