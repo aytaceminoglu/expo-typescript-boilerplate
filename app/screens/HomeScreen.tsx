@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {ActivityIndicator, FlatList, StyleSheet, View} from "react-native";
 import Card from "../components/Card";
 import axios from "axios";
 import { AppStackScreenProps } from "../navigators/AppNavigator";
+import {FlashList} from "@shopify/flash-list";
 
 interface HomeScreenProps extends AppStackScreenProps<"Home"> {}
 
@@ -19,27 +20,32 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
   }, []);
 
   return (
-    <View style={{}}>
+    <View style={{
+      flex: 1
+    }}>
       {loading == true ? (
         <ActivityIndicator size={"large"} />
       ) : (
-        <FlatList
-          data={cards}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Card
-              pokemon={item}
-              onPress={() => {
-                navigate("Pokemon", {
-                  pokemonId: item.id,
-                });
-              }}
-            />
+          <FlashList
+              data={cards}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+              <Card
+                  pokemon={item}
+                  onPress={() => {
+                    navigate("Pokemon", {
+                      pokemonId: item.id,
+                    });
+                  }}
+              />
           )}
-        />
+              estimatedItemSize={1}
+          />
       )}
     </View>
   );
 };
+
+
 
 export default HomeScreen;
