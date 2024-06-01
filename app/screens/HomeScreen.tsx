@@ -15,21 +15,31 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     const [page, setPage] = useState(1);
 
     useEffect(() => {
-    fetchCards(page)
+        fetchCards(page)
     }, [])
 
-  const fetchCards = (page:number) => {
+    const fetchCards = (page: number) => {
         setLoading(true)
-    axios
-        .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
-        .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
-        .finally(() => {
-          setLoading(false)
-        });
-  }
+        axios
+            .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
+            .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
+            .finally(() => {
+                setLoading(false)
+            });
+    }
 
+    const Item: FC<{ item }> = ({item}) => (
 
+            <Card
+                pokemon={item}
+                onPress={() => {
+                    navigate("Pokemon", {
+                        pokemonId: item.id,
+                    });
+                }}
+            />
 
+    );
 
 
     return (
@@ -37,33 +47,24 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
             flex: 1
         }}>
 
-                <FlashList
-                    style={{alignItems:"center"}}
-                    data={cards}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({item}) => (
-                        <Card
-                            pokemon={item}
-                            onPress={() => {
-                                navigate("Pokemon", {
-                                    pokemonId: item.id,
-                                });
-                            }}
-                        />
-                    )}
-                    numColumns={2}
-                    estimatedItemSize={200}
-                    onEndReached={() => {
-                        setLoading(true);
-                        setPage(prevPage => {
-                            prevPage++
-                            fetchCards(prevPage);
-                            return prevPage;
-                        })
-                    }}
-                    onEndReachedThreshold={0.5}
-                    ListFooterComponent={loading ? <ActivityIndicator size="small" /> : null}
-                />
+            <FlashList
+                style={{alignItems: "center"}}
+                data={cards}
+                keyExtractor={(item) => item.id}
+                renderItem={({item}) => <Item item={item}/>}
+                numColumns={2}
+                estimatedItemSize={200}
+                onEndReached={() => {
+                    setLoading(true);
+                    setPage(prevPage => {
+                        prevPage++;
+                        fetchCards(prevPage);
+                        return prevPage;
+                    })
+                }}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={loading ? <ActivityIndicator size="small"/> : null}
+            />
 
         </View>
     );
