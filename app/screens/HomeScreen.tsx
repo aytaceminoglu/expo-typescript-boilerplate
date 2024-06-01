@@ -34,7 +34,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
     return (
         <View style={{
-            flex: 2,
+            flex: 1
         }}>
 
                 <FlashList
