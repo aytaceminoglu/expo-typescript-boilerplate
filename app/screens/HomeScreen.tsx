@@ -49,12 +49,13 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
     return (
         <View style={{
-            flex: 1
+            flex: 2,
         }}>
             {loading == true ? (
                 <ActivityIndicator size={"large"}/>
             ) : (
                 <FlashList
+                    style={{alignItems:"center"}}
                     data={cards}
                     keyExtractor={(item) => item.id}
                     renderItem={({item}) => (
@@ -67,6 +68,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
                             }}
                         />
                     )}
+                    numColumns={2}
                     estimatedItemSize={200}
                     onEndReached={fetchMoreCards}
                     onEndReachedThreshold={0.5}
