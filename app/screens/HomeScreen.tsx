@@ -13,7 +13,6 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     const [loading, setLoading] = useState(true);
     const {navigate} = props.navigation;
     const [page, setPage] = useState(1);
-    const [loadingMore, setLoadingMore] = useState(false);
 
     useEffect(() => {
     fetchCards(page)
@@ -25,13 +24,11 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
         .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
         .finally(() => {
           setLoading(false)
-          setLoadingMore(false)
         });
   }
 
   const fetchMoreCards = () => {
-      if (loadingMore) return;
-      setLoadingMore(true);
+      setLoading(true);
       setPage(prevPage => {
         const newPage = prevPage + 1;
         fetchCards(newPage);
@@ -51,9 +48,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
         <View style={{
             flex: 2,
         }}>
-            {loading == true ? (
-                <ActivityIndicator size={"large"}/>
-            ) : (
+
                 <FlashList
                     style={{alignItems:"center"}}
                     data={cards}
@@ -72,9 +67,9 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
                     estimatedItemSize={200}
                     onEndReached={fetchMoreCards}
                     onEndReachedThreshold={0.5}
-                    ListFooterComponent={loadingMore ? <ActivityIndicator size="small" /> : null}
+                    ListFooterComponent={loading ? <ActivityIndicator size="small" /> : null}
                 />
-            )}
+
         </View>
     );
 };
