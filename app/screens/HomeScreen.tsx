@@ -19,6 +19,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     }, [])
 
   const fetchCards = (page:number) => {
+        setLoading(true)
     axios
         .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
         .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
@@ -27,14 +28,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
         });
   }
 
-  const fetchMoreCards = () => {
-      setLoading(true);
-      setPage(prevPage => {
-        const newPage = prevPage + 1;
-        fetchCards(newPage);
-        return newPage;
-      })
-  }
+
 
    /* useEffect(() => {
         axios
@@ -65,7 +59,14 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
                     )}
                     numColumns={2}
                     estimatedItemSize={200}
-                    onEndReached={fetchMoreCards}
+                    onEndReached={() => {
+                        setLoading(true);
+                        setPage(prevPage => {
+                            prevPage++
+                            fetchCards(prevPage);
+                            return prevPage;
+                        })
+                    }}
                     onEndReachedThreshold={0.5}
                     ListFooterComponent={loading ? <ActivityIndicator size="small" /> : null}
                 />
