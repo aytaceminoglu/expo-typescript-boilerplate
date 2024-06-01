@@ -30,12 +30,6 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
 
 
-   /* useEffect(() => {
-        axios
-            .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=1`)
-            .then((response) => setCards(response.data.data))
-            .finally(() => setLoading(false));
-    }, []); */
 
 
     return (
