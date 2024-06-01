@@ -1,51 +1,81 @@
-import React, { FC, useEffect, useState } from "react";
+import React, {FC, useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, StyleSheet, View} from "react-native";
 import Card from "../components/Card";
 import axios from "axios";
-import { AppStackScreenProps } from "../navigators/AppNavigator";
+import {AppStackScreenProps} from "../navigators/AppNavigator";
 import {FlashList} from "@shopify/flash-list";
 
-interface HomeScreenProps extends AppStackScreenProps<"Home"> {}
+interface HomeScreenProps extends AppStackScreenProps<"Home"> {
+}
 
 const HomeScreen: FC<HomeScreenProps> = (props) => {
-  const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { navigate } = props.navigation;
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {navigate} = props.navigation;
+    const [page, setPage] = useState(1);
+    const [loadingMore, setLoadingMore] = useState(false);
 
-  useEffect(() => {
+    useEffect(() => {
+    fetchCards(page)
+    }, [])
+
+  const fetchCards = (page:number) => {
     axios
-      .get("https://api.pokemontcg.io/v2/cards?pageSize=10")
-      .then((response) => setCards(response.data.data))
-      .finally(() => setLoading(false));
-  }, []);
+        .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
+        .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
+        .finally(() => {
+          setLoading(false)
+          setLoadingMore(false)
+        });
+  }
 
-  return (
-    <View style={{
-      flex: 1
-    }}>
-      {loading == true ? (
-        <ActivityIndicator size={"large"} />
-      ) : (
-          <FlashList
-              data={cards}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-              <Card
-                  pokemon={item}
-                  onPress={() => {
-                    navigate("Pokemon", {
-                      pokemonId: item.id,
-                    });
-                  }}
-              />
-          )}
-              estimatedItemSize={1}
-          />
-      )}
-    </View>
-  );
+  const fetchMoreCards = () => {
+      if (loadingMore) return;
+      setLoadingMore(true);
+      setPage(prevPage => {
+        const newPage = prevPage + 1;
+        fetchCards(newPage);
+        return newPage;
+      })
+  }
+
+   /* useEffect(() => {
+        axios
+            .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=1`)
+            .then((response) => setCards(response.data.data))
+            .finally(() => setLoading(false));
+    }, []); */
+
+
+    return (
+        <View style={{
+            flex: 1
+        }}>
+            {loading == true ? (
+                <ActivityIndicator size={"large"}/>
+            ) : (
+                <FlashList
+                    data={cards}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({item}) => (
+                        <Card
+                            pokemon={item}
+                            onPress={() => {
+                                navigate("Pokemon", {
+                                    pokemonId: item.id,
+                                });
+                            }}
+                        />
+                    )}
+                    estimatedItemSize={200}
+                    onEndReached={fetchMoreCards}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={loadingMore ? <ActivityIndicator size="small" /> : null}
+                />
+            )}
+        </View>
+    );
 };
-
 
 
 export default HomeScreen;
