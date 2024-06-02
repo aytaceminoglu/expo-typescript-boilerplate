@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, StyleSheet, View, ViewStyle} from "react-native";
 import Card from "../components/Card";
 import axios from "axios";
@@ -12,18 +12,19 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const {navigate} = props.navigation;
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         fetchCards()
     }, [])
-
     const fetchCards = () => {
-        setPage(page + 1)
         setLoading(true)
         axios
             .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
-            .then((response) => setCards(prevCards => [...prevCards, ...response.data.data]))
+            .then((response) => {
+                setCards(prevCards => [...prevCards, ...response.data.data]);
+                setPage(page + 1);
+            })
             .finally(() => {
                 setLoading(false)
             });
@@ -42,6 +43,8 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
     );
 
+    const keyExtractor = useCallback((item: any, i: number) => `${i}-${item.id}`, []);
+
 
     return (
         <View style={$containerStyle}>
@@ -49,10 +52,10 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
             <FlashList
                 style={$flashListStyle}
                 data={cards}
-                keyExtractor={(item) => item.id}
+                keyExtractor={keyExtractor}
                 renderItem={Item}
                 numColumns={2}
-                estimatedItemSize={200}
+                estimatedItemSize={500}
                 onEndReached={fetchCards}
                 onEndReachedThreshold={0.5}
                 ListFooterComponent={loading ? <ActivityIndicator size="small"/> : null}></FlashList>
