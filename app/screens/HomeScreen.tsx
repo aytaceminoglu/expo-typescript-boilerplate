@@ -19,8 +19,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     }, [])
 
     const fetchCards = () => {
-        const prevPage = page + 1
-        setPage(prevPage)
+        setPage(page + 1)
         setLoading(true)
         axios
             .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
