@@ -1,47 +1,70 @@
-import React, { FC } from "react";
+import React, {FC, useState} from "react";
 import {
-  Image,
-  ImageStyle,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
+    Button,
+    Image,
+    ImageStyle, Pressable, StyleSheet,
+    Text, TextStyle,
+    TouchableOpacity,
+    View,
+    ViewStyle,
 } from "react-native";
-import { Pokemon } from "../models/pokemon";
+import {Pokemon} from "../models/pokemon";
 
 interface CardProps {
-  pokemon: Pokemon;
-  onPress: () => void;
+    pokemon: Pokemon;
+    onPress: () => void;
 }
 
-const Card: FC<CardProps> = ({ pokemon, onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={$containerStyle}>
-        <Image
-          source={{ uri: pokemon.images.small }}
-          style={$imageStyle}
-        ></Image>
-        <Text>Tap to see {pokemon.name}'s detail</Text>
-      </View>
-    </TouchableOpacity>
-  );
+const Card: FC<CardProps> = ({pokemon, onPress}) => {
+
+    return (
+
+        <View style={$containerStyle}>
+            <Image
+                source={{uri: pokemon.images.small}}
+                style={$imageStyle}
+            ></Image>
+            <TouchableOpacity
+                onPress={onPress}
+                style={$buttonStyle}
+            >
+                <Text style={$buttonTextStyle}>See Details</Text>
+            </TouchableOpacity>
+        </View>
+
+    );
 };
 
 const $containerStyle: ViewStyle = {
-  borderBottomWidth: 1,
-  borderBottomColor: "lightgray",
-  padding: 8,
-  marginBottom: 16,
-  alignContent: "center",
-  alignItems: "center",
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    padding: 8,
+    marginBottom: 16,
+    alignContent: "center",
+    alignItems: "center",
 };
 
 const $imageStyle: ImageStyle = {
-  width: 100,
-  aspectRatio: 0.71,
+    width: 100,
+    aspectRatio: 0.71,
 };
 
-const $rightSection: ViewStyle = { paddingLeft: 16 };
+const $buttonStyle: ViewStyle = {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#add8e6",
+    borderRadius: 4,
+    marginTop: 5,
+    elevation: 4,
+    width: 90,
+    height: 30
+}
+
+const $buttonTextStyle: TextStyle = {
+    fontWeight: "bold"
+}
+
+const $rightSection: ViewStyle = {paddingLeft: 16};
 
 export default Card;
