@@ -45,10 +45,10 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
 
     return (
-        <View>
+        <View style={$containerStyle}>
 
             <FlashList
-                style={{alignItems: "center"}}
+                style={$flashListStyle}
                 data={cards}
                 keyExtractor={(item) => item.id}
                 renderItem={Item}
@@ -64,6 +64,10 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
 const $containerStyle: ViewStyle = {
     flex: 1
+}
+
+const $flashListStyle: ViewStyle = {
+    alignItems: "center"
 }
 
 
