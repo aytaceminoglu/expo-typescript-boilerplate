@@ -12,13 +12,15 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const {navigate} = props.navigation;
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
-        fetchCards(page)
+        fetchCards()
     }, [])
 
-    const fetchCards = (page: number) => {
+    const fetchCards = () => {
+        const prevPage = page + 1
+        setPage(prevPage)
         setLoading(true)
         axios
             .get(`https://api.pokemontcg.io/v2/cards?pageSize=10&page=${page}`)
@@ -28,16 +30,16 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
             });
     }
 
-    const Item: FC<{ item }> = ({item}) => (
+    const Item = ({item}) => (
 
-            <Card
-                pokemon={item}
-                onPress={() => {
-                    navigate("Pokemon", {
-                        pokemonId: item.id,
-                    });
-                }}
-            />
+        <Card
+            pokemon={item}
+            onPress={() => {
+                navigate("Pokemon", {
+                    pokemonId: item.id,
+                });
+            }}
+        />
 
     );
 
@@ -51,20 +53,12 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
                 style={{alignItems: "center"}}
                 data={cards}
                 keyExtractor={(item) => item.id}
-                renderItem={({item}) => <Item item={item}/>}
+                renderItem={Item}
                 numColumns={2}
                 estimatedItemSize={200}
-                onEndReached={() => {
-                    setLoading(true);
-                    setPage(prevPage => {
-                        prevPage++;
-                        fetchCards(prevPage);
-                        return prevPage;
-                    })
-                }}
+                onEndReached={fetchCards}
                 onEndReachedThreshold={0.5}
-                ListFooterComponent={loading ? <ActivityIndicator size="small"/> : null}
-            />
+                ListFooterComponent={loading ? <ActivityIndicator size="small"/> : null}></FlashList>
 
         </View>
     );
