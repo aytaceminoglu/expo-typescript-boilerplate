@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {ActivityIndicator, FlatList, StyleSheet, View} from "react-native";
+import {ActivityIndicator, FlatList, StyleSheet, View, ViewStyle} from "react-native";
 import Card from "../components/Card";
 import axios from "axios";
 import {AppStackScreenProps} from "../navigators/AppNavigator";
@@ -45,9 +45,7 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
 
 
     return (
-        <View style={{
-            flex: 1
-        }}>
+        <View>
 
             <FlashList
                 style={{alignItems: "center"}}
@@ -63,6 +61,10 @@ const HomeScreen: FC<HomeScreenProps> = (props) => {
         </View>
     );
 };
+
+const $containerStyle: ViewStyle = {
+    flex: 1
+}
 
 
 export default HomeScreen;
