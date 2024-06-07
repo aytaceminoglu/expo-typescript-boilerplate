@@ -2,18 +2,18 @@ export interface Pokemon {
   id: string;
   name: string;
   supertype: string;
-  abilities: PokemonAbility[];
+  abilities: PokemonDetail[];
   images: PokemonImage;
   hp: string;
   types: string[];
-  attacks: any;
-  weaknesses: any;
+  attacks: PokemonDetail[];
+  weaknesses: PokemonDetail[];
   set: any;
   rarity: any;
   artist: any;
 }
 
-export interface PokemonAbility {
+export interface PokemonDetail {
   name: string;
   text: string;
 }
